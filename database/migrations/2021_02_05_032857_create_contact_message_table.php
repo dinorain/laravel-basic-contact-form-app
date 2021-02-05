@@ -18,7 +18,7 @@ class CreateContactMessageTable extends Migration
             $table->string('from_name');
             $table->string('from_email');
             $table->string('topic');
-            $table->longText('description');
+            $table->longText('message');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
