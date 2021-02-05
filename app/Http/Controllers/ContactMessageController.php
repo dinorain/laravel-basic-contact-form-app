@@ -130,6 +130,17 @@ class ContactMessageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $contactMessage = ContactMessage::findOrfail($id);
+        try 
+        {
+            $contactMessage->delete();
+            Session::flash('success-message', 'Success!'); 
+        } 
+        catch (\Exception $e)
+        {
+            Session::flash('error-message', 'Something went wrong!'); 
+            return redirect()->back();
+        }
+        return redirect()->back();
     }
 }

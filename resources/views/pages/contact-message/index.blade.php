@@ -13,17 +13,33 @@
                         <th class="text-left p-3 px-5">Topic</th>
                         <th></th>
                     </tr>
-                    @foreach ($contactMessages as $message)
+                    @foreach ($contactMessages as $contact)
                         <tr class="border-b hover:bg-orange-100 bg-gray-100">
-                            <td class="p-3 px-5">{{ $message->from_name }}</td>
-                            <td class="p-3 px-5">{{ $message->from_email }}</td>
-                            <td class="p-3 px-5">{{ $message->topic }}</select>
+                            <td class="p-3 px-5">{{ $contact->from_name }}</td>
+                            <td class="p-3 px-5">{{ $contact->from_email }}</td>
+                            <td class="p-3 px-5">{{ $contact->topic }}</select>
                             </td>
                             <td class="p-3 px-5 flex justify-end">
-                                <button type="button" class="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-                                >Edit</button>
-                                <button type="button" class="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-                                >Delete</button>
+                                <a 
+                                    href="{{ route('contact-message.show', ['id' => $contact->id])}}"
+                                    class="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                >View</a> 
+                                <a 
+                                    href="{{ route('contact-message.edit', ['id' => $contact->id])}}"
+                                    class="mr-3 text-sm bg-green-500 hover:bg-green-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                >Edit</a> 
+                                <form
+                                    method="POST"
+                                    enctype="multipart/form-data"
+                                    action="{{ route('contact-message.destroy', ['id' => $contact->id])}}"
+                                >
+                                    @csrf
+                                    @method('DELETE')
+                                    <button
+                                        type="submit"
+                                        class="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                    >Delete</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
