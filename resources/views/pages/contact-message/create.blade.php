@@ -6,6 +6,10 @@
         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Drop me a message below, I'll get back to you as soon as I can.</p>
         </div>
         <x-contact-form />
+        <div class="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">or email me at
+        <a class="text-blue-500">djourdan555@email.com</a>
+        <p class="leading-normal my-5">Indonesia</p>
+        </div>
     </div>
     </section>
 </x-layout>

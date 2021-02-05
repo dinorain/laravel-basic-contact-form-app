@@ -77,7 +77,10 @@ class ContactMessageController extends Controller
      */
     public function show($id)
     {
-        return view('pages.contact-message.show');
+        $contactMessage = ContactMessage::findOrfail($id);
+        return view('pages.contact-message.show', compact([
+            'contactMessage'
+        ]));
     }
 
     /**
@@ -88,7 +91,10 @@ class ContactMessageController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.contact-message.edit');
+        $contactMessage = ContactMessage::findOrfail($id);
+        return view('pages.contact-message.edit', compact([
+            'contactMessage'
+        ]));
     }
 
     /**
