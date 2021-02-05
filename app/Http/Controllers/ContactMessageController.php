@@ -3,9 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
+use App\Models\ContactMessage;
 class ContactMessageController extends Controller
 {
+
+    private $rules = [
+        'from_name' => 'required|max:255',
+        'from_email' => 'required|email|max:255',
+        'topic' => 'required|max:255',
+        'message' => 'required|max:255'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +24,10 @@ class ContactMessageController extends Controller
      */
     public function index()
     {
-        return view('pages.contact-message.index');
+        $contactMessages = ContactMessage::all();
+        return view('pages.contact-message.index', compact([
+            'contactMessages'
+        ]));
     }
 
     /**
@@ -34,7 +48,25 @@ class ContactMessageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), $this->rules);
+
+        if ($validator->fails()) 
+        {
+            Session::flash('error-message', 'Something went wrong!'); 
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        try 
+        {
+            ContactMessage::create($request->all());
+            Session::flash('success-message', 'Thank you!'); 
+        } 
+        catch (\Exception $e)
+        {
+            Session::flash('error-message', 'Something went wrong!'); 
+            return redirect()->back();
+        }
+        return redirect()->route('contact-message.create');
     }
 
     /**
@@ -68,7 +100,26 @@ class ContactMessageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), $this->rules);
+
+        if ($validator->fails()) 
+        {
+            Session::flash('error-message', 'Something went wrong!'); 
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
+        $contactMessage = ContactMessage::findOrfail($id);
+        try 
+        {
+            $contactMessage->update($request->all());
+            Session::flash('success-message', 'Success!'); 
+        } 
+        catch (\Exception $e)
+        {
+            Session::flash('error-message', 'Something went wrong!'); 
+            return redirect()->back();
+        }
+        return redirect()->route('contact-message.edit', ['id' => $contactMessage->id]);
     }
 
     /**
