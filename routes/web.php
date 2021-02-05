@@ -17,15 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/contact', [ContactMessageController::class, 'create'])->name('contact-message.create');
+
 Route::group([
     'prefix' => 'contact-messages'
 ], function () {
-    Route::get('/', [ContactMessageController::class, 'index'])->name('contact_message.index');
-    Route::get('/create', [ContactMessageController::class, 'create'])->name('contact_message.create');
-    Route::get('/{id}', [ContactMessageController::class, 'show'])->name('contact_message.show');
-    Route::get('/{id}/edit', [ContactMessageController::class, 'edit'])->name('contact_message.edit');
+    Route::get('/', [ContactMessageController::class, 'index'])->name('contact-message.index');
+    Route::get('/{id}', [ContactMessageController::class, 'show'])->name('contact-message.show');
+    Route::get('/{id}/edit', [ContactMessageController::class, 'edit'])->name('contact-message.edit');
 
-    Route::post('/', [ContactMessageController::class, 'store'])->name('contact_message.store');
-    Route::post('/{id}', [ContactMessageController::class, 'update'])->name('contact_message.update');
-    Route::delete('/{id}', [ContactMessageController::class, 'destroy'])->name('contact_message.destroy');
+    Route::post('/', [ContactMessageController::class, 'store'])->name('contact-message.store');
+    Route::post('/{id}', [ContactMessageController::class, 'update'])->name('contact-message.update');
+    Route::delete('/{id}', [ContactMessageController::class, 'destroy'])->name('contact-message.destroy');
 });
